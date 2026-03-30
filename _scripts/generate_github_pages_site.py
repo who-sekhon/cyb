@@ -174,11 +174,17 @@ def read_markdown() -> tuple[str, dict[str, str]]:
     return text, metadata
 
 
+def copy_if_changed(source: Path, destination: Path) -> None:
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    if destination.exists() and source.read_bytes() == destination.read_bytes():
+        return
+    shutil.copy2(source, destination)
+
+
 def copy_pdf() -> None:
     if not PDF_SOURCE.exists():
         raise FileNotFoundError(f"Missing PDF source: {PDF_SOURCE}")
-    PDF_DEST.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(PDF_SOURCE, PDF_DEST)
+    copy_if_changed(PDF_SOURCE, PDF_DEST)
 
 
 def copy_images(markdown_text: str) -> dict[str, str]:
@@ -196,8 +202,7 @@ def copy_images(markdown_text: str) -> dict[str, str]:
         filename = f"figure-{figure_number:02d}-{slugify(figure_title)}{source_path.suffix.lower()}"
         relative_dest = Path("assets") / "img" / week_slug / filename
         absolute_dest = SITE_ROOT / relative_dest
-        absolute_dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source_path, absolute_dest)
+        copy_if_changed(source_path, absolute_dest)
         mapping[source_text] = relative_dest.as_posix()
     return mapping
 
@@ -227,8 +232,8 @@ def copy_shared_assets() -> None:
         raise FileNotFoundError(f"Missing stylesheet source: {SOURCE_CSS}")
     if not SOURCE_JS.exists():
         raise FileNotFoundError(f"Missing script source: {SOURCE_JS}")
-    shutil.copy2(SOURCE_CSS, SITE_ROOT / "assets" / "css" / "styles.css")
-    shutil.copy2(SOURCE_JS, SITE_ROOT / "assets" / "js" / "site.js")
+    copy_if_changed(SOURCE_CSS, SITE_ROOT / "assets" / "css" / "styles.css")
+    copy_if_changed(SOURCE_JS, SITE_ROOT / "assets" / "js" / "site.js")
 
 
 def format_inline(text: str) -> str:

@@ -1,9 +1,16 @@
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const revealAllOnLoad = Boolean(window.location.hash);
+const shouldAnimateReveal = document.body?.classList.contains("page-home");
 
 const revealNodes = document.querySelectorAll("[data-reveal]");
 
-if (!prefersReducedMotion && !revealAllOnLoad && "IntersectionObserver" in window && revealNodes.length > 0) {
+if (
+  shouldAnimateReveal &&
+  !prefersReducedMotion &&
+  !revealAllOnLoad &&
+  "IntersectionObserver" in window &&
+  revealNodes.length > 0
+) {
   const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
