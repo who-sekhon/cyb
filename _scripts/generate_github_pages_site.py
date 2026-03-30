@@ -9,6 +9,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE_ROOT = ROOT / "docs"
+ROOT_INDEX_PATH = ROOT / "index.html"
+ROOT_REPORT_DIR = ROOT / "report"
+ROOT_ASSETS_DIR = ROOT / "assets"
 MARKDOWN_PATH = ROOT / "CMP-X305_coursework_report.md"
 PDF_SOURCE = Path(r"c:\Users\sukhj\Downloads\cyb report_fixed_v3.pdf")
 PDF_DEST = SITE_ROOT / "assets" / "docs" / "cyb-report-fixed-v3.pdf"
@@ -887,11 +890,23 @@ def ensure_directories() -> None:
     (SITE_ROOT / "assets" / "css").mkdir(parents=True, exist_ok=True)
     (SITE_ROOT / "assets" / "js").mkdir(parents=True, exist_ok=True)
     (SITE_ROOT / "assets" / "img").mkdir(parents=True, exist_ok=True)
+    (SITE_ROOT / ".nojekyll").write_text("", encoding="utf-8")
 
 
 def write_pages(homepage_html: str, report_html: str) -> None:
     (SITE_ROOT / "index.html").write_text(homepage_html, encoding="utf-8")
     (SITE_ROOT / "report" / "index.html").write_text(report_html, encoding="utf-8")
+
+
+def mirror_pages_to_repo_root() -> None:
+    ROOT_INDEX_PATH.write_text((SITE_ROOT / "index.html").read_text(encoding="utf-8"), encoding="utf-8")
+    ROOT_REPORT_DIR.mkdir(parents=True, exist_ok=True)
+    (ROOT_REPORT_DIR / "index.html").write_text(
+        (SITE_ROOT / "report" / "index.html").read_text(encoding="utf-8"),
+        encoding="utf-8",
+    )
+    shutil.copytree(SITE_ROOT / "assets", ROOT_ASSETS_DIR, dirs_exist_ok=True)
+    (ROOT / ".nojekyll").write_text("", encoding="utf-8")
 
 
 def main() -> None:
@@ -903,7 +918,8 @@ def main() -> None:
     homepage_html = render_homepage(metadata, len(image_map))
     report_html = render_report_page(metadata, report_content, len(image_map))
     write_pages(homepage_html, report_html)
-    print("GitHub Pages site generated in docs/")
+    mirror_pages_to_repo_root()
+    print("GitHub Pages site generated in docs/ and mirrored to repo root/")
 
 
 if __name__ == "__main__":
