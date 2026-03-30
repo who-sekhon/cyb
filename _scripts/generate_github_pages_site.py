@@ -13,8 +13,13 @@ ROOT_INDEX_PATH = ROOT / "index.html"
 ROOT_REPORT_DIR = ROOT / "report"
 ROOT_ASSETS_DIR = ROOT / "assets"
 MARKDOWN_PATH = ROOT / "CMP-X305_coursework_report.md"
-PDF_SOURCE = Path(r"c:\Users\sukhj\OneDrive\Desktop\Coursework Portfolio 1 - Formatted.pdf")
-PDF_DEST = SITE_ROOT / "assets" / "docs" / "cyb-report-fixed-v3.pdf"
+SUBMISSION_SOURCE = ROOT / "CMP-X305_Cybersecurity_Portfolio_FINAL.docx"
+SUBMISSION_FILENAME = "cmp-x305-cybersecurity-portfolio-final.docx"
+SUBMISSION_DEST = SITE_ROOT / "assets" / "docs" / SUBMISSION_FILENAME
+LEGACY_DOWNLOADS = [
+    SITE_ROOT / "assets" / "docs" / "cyb-report-fixed-v3.pdf",
+    ROOT / "assets" / "docs" / "cyb-report-fixed-v3.pdf",
+]
 SOURCE_CSS = ROOT / "assets" / "css" / "styles.css"
 SOURCE_JS = ROOT / "assets" / "js" / "site.js"
 SITE_URL = "https://who-sekhon.github.io/cyb"
@@ -181,10 +186,16 @@ def copy_if_changed(source: Path, destination: Path) -> None:
     shutil.copy2(source, destination)
 
 
-def copy_pdf() -> None:
-    if not PDF_SOURCE.exists():
-        raise FileNotFoundError(f"Missing PDF source: {PDF_SOURCE}")
-    copy_if_changed(PDF_SOURCE, PDF_DEST)
+def copy_submission_file() -> None:
+    if not SUBMISSION_SOURCE.exists():
+        raise FileNotFoundError(f"Missing submission source: {SUBMISSION_SOURCE}")
+    copy_if_changed(SUBMISSION_SOURCE, SUBMISSION_DEST)
+
+
+def remove_legacy_downloads() -> None:
+    for path in LEGACY_DOWNLOADS:
+        if path.exists():
+            path.unlink()
 
 
 def copy_images(markdown_text: str) -> dict[str, str]:
@@ -316,10 +327,10 @@ REVIEW_CARDS = [
         "label": "Open report",
     },
     {
-        "title": "Cross-check the PDF",
-        "text": "The downloadable PDF remains the formal submission artifact for institutional review and record-keeping.",
-        "href": "assets/docs/cyb-report-fixed-v3.pdf",
-        "label": "Open PDF",
+        "title": "Cross-check the DOCX",
+        "text": "The downloadable DOCX is the formal submission artifact for institutional review and record-keeping.",
+        "href": f"assets/docs/{SUBMISSION_FILENAME}",
+        "label": "Open DOCX",
     },
 ]
 
@@ -478,6 +489,7 @@ def render_progress_bar() -> str:
 def render_header(path_prefix: str, active: str) -> str:
     home_href = f"{path_prefix}index.html" if path_prefix else "index.html"
     report_href = f"{path_prefix}report/index.html"
+    submission_href = f"{path_prefix}assets/docs/{SUBMISSION_FILENAME}"
     home_current = ' aria-current="page"' if active == "home" else ""
     report_current = ' aria-current="page"' if active == "report" else ""
     return f"""
@@ -492,7 +504,7 @@ def render_header(path_prefix: str, active: str) -> str:
       <nav class="site-nav" aria-label="Primary">
         <a href="{home_href}"{home_current}>Overview</a>
         <a href="{report_href}"{report_current}>Full report</a>
-        <a href="{path_prefix}assets/docs/cyb-report-fixed-v3.pdf">Submission PDF</a>
+        <a href="{submission_href}">Submission DOCX</a>
       </nav>
     </header>
 """
@@ -501,10 +513,11 @@ def render_header(path_prefix: str, active: str) -> str:
 def render_footer(path_prefix: str) -> str:
     home_href = f"{path_prefix}index.html" if path_prefix else "index.html"
     report_href = f"{path_prefix}report/index.html"
+    submission_href = f"{path_prefix}assets/docs/{SUBMISSION_FILENAME}"
     return f"""
     <footer class="site-footer">
       <p>Static academic portfolio prepared for GitHub Pages project-site deployment.</p>
-      <p><a href="{home_href}">Overview</a> · <a href="{report_href}">Full report</a> · <a href="{path_prefix}assets/docs/cyb-report-fixed-v3.pdf">PDF</a></p>
+      <p><a href="{home_href}">Overview</a> · <a href="{report_href}">Full report</a> · <a href="{submission_href}">DOCX</a></p>
     </footer>
 """
 
@@ -918,6 +931,7 @@ def render_homepage(metadata: dict[str, str], figure_count: int) -> str:
     student_name = metadata.get("Student name", "Sukhjeet Singh Sekhon")
     submission_date = metadata.get("Submission date", "31 March 2026")
     description = "An academic GitHub Pages portfolio for CMP-X305, presenting four cyber security labs with structured evidence, analysis, reflection, and downloadable submission material."
+    submission_href = f"assets/docs/{SUBMISSION_FILENAME}"
     return f"""<!doctype html>
 <html lang="en">
 {render_head("CMP-X305 Cyber Security Portfolio", description, "/", "")}
@@ -937,13 +951,13 @@ def render_homepage(metadata: dict[str, str], figure_count: int) -> str:
             <p class="hero__abstract">The strongest confirmed issues include WordPress information disclosure, DOM-based XSS in OWASP Juice Shop, exposed administrative service visibility, and a Nessus-identified SSH Terrapin weakness affecting the WordPress host. Each lab section pairs the captured evidence with analysis, limitations, and practical mitigation.</p>
             <div class="hero__actions">
               <a class="button" href="report/index.html">Open full report</a>
-              <a class="button button--secondary" href="assets/docs/cyb-report-fixed-v3.pdf">Download submission PDF</a>
+              <a class="button button--secondary" href="{submission_href}">Download submission DOCX</a>
             </div>
             <ul class="hero-stats">
               <li><strong>4</strong><span>labs completed</span></li>
               <li><strong>{figure_count}</strong><span>evidence figures</span></li>
               <li><strong>5</strong><span>core tools used</span></li>
-              <li><strong>1</strong><span>formal PDF submission</span></li>
+              <li><strong>1</strong><span>formal DOCX submission</span></li>
             </ul>
           </div>
           <aside class="hero__aside">
@@ -964,7 +978,7 @@ def render_homepage(metadata: dict[str, str], figure_count: int) -> str:
           </aside>
         </section>
 
-        <section class="section-block"><div class="section-heading" data-reveal><p class="section-kicker">Review route</p><h2>The quickest way to assess the submission</h2><p>Use the site as a structured review surface: start with the abstract, inspect week verdicts and figures, then open the PDF for the formal submission copy if needed.</p></div><div class="review-grid">{render_marker_cards()}</div></section>
+        <section class="section-block"><div class="section-heading" data-reveal><p class="section-kicker">Review route</p><h2>The quickest way to assess the submission</h2><p>Use the site as a structured review surface: start with the abstract, inspect week verdicts and figures, then open the DOCX for the formal submission copy if needed.</p></div><div class="review-grid">{render_marker_cards()}</div></section>
 
         <section class="section-block"><div class="section-heading" data-reveal><p class="section-kicker">Key findings</p><h2>The strongest security results at a glance</h2><p>This view surfaces the most marker-relevant findings before the longer narrative begins.</p></div><div class="findings-grid">{render_finding_cards()}</div></section>
 
@@ -979,7 +993,7 @@ def render_homepage(metadata: dict[str, str], figure_count: int) -> str:
         <section class="section-block"><div class="section-heading" data-reveal><p class="section-kicker">Learning outcomes</p><h2>Direct alignment with the module brief</h2></div><div class="outcome-grid">{render_outcome_cards()}</div></section>
         <section class="section-block"><div class="section-heading" data-reveal><p class="section-kicker">Security toolkit</p><h2>Tools used across the coursework</h2><p>The methods span reconnaissance, exploitation, secure administration, and vulnerability management so the portfolio reads as a coherent security workflow rather than isolated tasks.</p></div><div class="tool-grid">{render_tool_cards()}</div></section>
 
-        <section class="section-block"><div class="cta-panel panel panel--navy" data-reveal><div><p class="section-kicker">Review options</p><h2>Choose the format that best fits the review</h2><p>Use the site for anchored navigation, summary panels, and figure expansion, or open the PDF for the formal submission artifact.</p></div><div class="cta-actions"><a class="button button--light" href="report/index.html">Enter full report</a><a class="button button--ghost-light" href="assets/docs/cyb-report-fixed-v3.pdf">Download PDF</a></div></div></section>
+        <section class="section-block"><div class="cta-panel panel panel--navy" data-reveal><div><p class="section-kicker">Review options</p><h2>Choose the format that best fits the review</h2><p>Use the site for anchored navigation, summary panels, and figure expansion, or open the DOCX for the formal submission artifact.</p></div><div class="cta-actions"><a class="button button--light" href="report/index.html">Enter full report</a><a class="button button--ghost-light" href="{submission_href}">Download DOCX</a></div></div></section>
       </main>
       {render_footer("")}
     </div>
@@ -993,6 +1007,7 @@ def render_homepage(metadata: dict[str, str], figure_count: int) -> str:
 def render_report_page(metadata: dict[str, str], report_content: str, figure_count: int) -> str:
     student_name = metadata.get("Student name", "Sukhjeet Singh Sekhon")
     submission_date = metadata.get("Submission date", "31 March 2026")
+    submission_href = f"../assets/docs/{SUBMISSION_FILENAME}"
     toc_items = [(section_id, SECTION_LABELS[section_id]) for section_id in SECTION_SEQUENCE]
     toc_html = "".join(
         f'<li><a href="#{section_id}">{label}</a></li>' for section_id, label in toc_items
@@ -1025,7 +1040,7 @@ def render_report_page(metadata: dict[str, str], report_content: str, figure_cou
             <ol class="toc-list">
               {toc_html}
             </ol>
-            <a class="button button--light button--block" href="../assets/docs/cyb-report-fixed-v3.pdf">Open submission PDF</a>
+            <a class="button button--light button--block" href="{submission_href}">Open submission DOCX</a>
           </div>
           <div class="panel panel--paper sidebar-card">
             <p class="section-kicker">Quick facts</p>
@@ -1112,7 +1127,7 @@ def mirror_pages_to_repo_root() -> None:
 def main() -> None:
     ensure_directories()
     markdown_text, metadata = read_markdown()
-    copy_pdf()
+    copy_submission_file()
     write_brand_assets()
     copy_shared_assets()
     image_map = copy_images(markdown_text)
@@ -1121,6 +1136,7 @@ def main() -> None:
     report_html = render_report_page(metadata, report_content, len(image_map))
     write_pages(homepage_html, report_html)
     mirror_pages_to_repo_root()
+    remove_legacy_downloads()
     print("GitHub Pages site generated in docs/ and mirrored to repo root/")
 
 

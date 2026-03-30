@@ -8,7 +8,7 @@ This workspace now includes a publishable GitHub Pages site under [`docs/`](c:/S
 - [`docs/report/index.html`](c:/Sekhons/Roehampton/CYB/docs/report/index.html): full report page
 - [`docs/assets/css/styles.css`](c:/Sekhons/Roehampton/CYB/docs/assets/css/styles.css): shared styling
 - [`docs/assets/js/site.js`](c:/Sekhons/Roehampton/CYB/docs/assets/js/site.js): reveal and TOC behavior
-- [`docs/assets/docs/cyb-report-fixed-v3.pdf`](c:/Sekhons/Roehampton/CYB/docs/assets/docs/cyb-report-fixed-v3.pdf): downloadable submission PDF
+- [`docs/assets/docs/cmp-x305-cybersecurity-portfolio-final.docx`](c:/Sekhons/Roehampton/CYB/docs/assets/docs/cmp-x305-cybersecurity-portfolio-final.docx): downloadable submission DOCX
 - [`docs/assets/img/`](c:/Sekhons/Roehampton/CYB/docs/assets/img): normalized screenshot assets
 
 ## Deployment
