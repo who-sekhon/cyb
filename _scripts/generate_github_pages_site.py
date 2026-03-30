@@ -301,13 +301,13 @@ REVIEW_CARDS = [
     {
         "title": "Start with the abstract",
         "text": "Use the homepage and report abstract for a quick view of the labs, strongest findings, and remediation priorities.",
-        "href": "report/#report-abstract",
+        "href": "report/index.html#report-abstract",
         "label": "Read abstract",
     },
     {
         "title": "Inspect the full report",
         "text": "Each week keeps its original aim, method, evidence, findings, and reflection, with anchored navigation and expandable figures.",
-        "href": "report/",
+        "href": "report/index.html",
         "label": "Open report",
     },
     {
@@ -470,7 +470,8 @@ def render_progress_bar() -> str:
 
 
 def render_header(path_prefix: str, active: str) -> str:
-    home_href = path_prefix or "./"
+    home_href = f"{path_prefix}index.html" if path_prefix else "index.html"
+    report_href = f"{path_prefix}report/index.html"
     home_current = ' aria-current="page"' if active == "home" else ""
     report_current = ' aria-current="page"' if active == "report" else ""
     return f"""
@@ -484,7 +485,7 @@ def render_header(path_prefix: str, active: str) -> str:
       </a>
       <nav class="site-nav" aria-label="Primary">
         <a href="{home_href}"{home_current}>Overview</a>
-        <a href="{path_prefix}report/"{report_current}>Full report</a>
+        <a href="{report_href}"{report_current}>Full report</a>
         <a href="{path_prefix}assets/docs/cyb-report-fixed-v3.pdf">Submission PDF</a>
       </nav>
     </header>
@@ -492,11 +493,12 @@ def render_header(path_prefix: str, active: str) -> str:
 
 
 def render_footer(path_prefix: str) -> str:
-    home_href = path_prefix or "./"
+    home_href = f"{path_prefix}index.html" if path_prefix else "index.html"
+    report_href = f"{path_prefix}report/index.html"
     return f"""
     <footer class="site-footer">
       <p>Static academic portfolio prepared for GitHub Pages project-site deployment.</p>
-      <p><a href="{home_href}">Overview</a> · <a href="{path_prefix}report/">Full report</a> · <a href="{path_prefix}assets/docs/cyb-report-fixed-v3.pdf">PDF</a></p>
+      <p><a href="{home_href}">Overview</a> · <a href="{report_href}">Full report</a> · <a href="{path_prefix}assets/docs/cyb-report-fixed-v3.pdf">PDF</a></p>
     </footer>
 """
 
@@ -615,7 +617,7 @@ def render_week_cards() -> str:
               </div>
               <div class="card-footer">
                 <span>{details["evidence"]}</span>
-                <a class="text-link" href="report/#{week_id}">Read section</a>
+                <a class="text-link" href="report/index.html#{week_id}">Read section</a>
               </div>
             </article>
 """
@@ -928,7 +930,7 @@ def render_homepage(metadata: dict[str, str], figure_count: int) -> str:
             <p class="hero__lede">Across four practical labs, this site presents evidence-led coursework on reconnaissance, exploitation, secure administration, and vulnerability management in an isolated teaching environment.</p>
             <p class="hero__abstract">The strongest confirmed issues include WordPress information disclosure, DOM-based XSS in OWASP Juice Shop, exposed administrative service visibility, and a Nessus-identified SSH Terrapin weakness affecting the WordPress host. Each lab section pairs the captured evidence with analysis, limitations, and practical mitigation.</p>
             <div class="hero__actions">
-              <a class="button" href="report/">Open full report</a>
+              <a class="button" href="report/index.html">Open full report</a>
               <a class="button button--secondary" href="assets/docs/cyb-report-fixed-v3.pdf">Download submission PDF</a>
             </div>
             <ul class="hero-stats">
@@ -971,7 +973,7 @@ def render_homepage(metadata: dict[str, str], figure_count: int) -> str:
         <section class="section-block"><div class="section-heading" data-reveal><p class="section-kicker">Learning outcomes</p><h2>Direct alignment with the module brief</h2></div><div class="outcome-grid">{render_outcome_cards()}</div></section>
         <section class="section-block"><div class="section-heading" data-reveal><p class="section-kicker">Security toolkit</p><h2>Tools used across the coursework</h2><p>The methods span reconnaissance, exploitation, secure administration, and vulnerability management so the portfolio reads as a coherent security workflow rather than isolated tasks.</p></div><div class="tool-grid">{render_tool_cards()}</div></section>
 
-        <section class="section-block"><div class="cta-panel panel panel--navy" data-reveal><div><p class="section-kicker">Review options</p><h2>Choose the format that best fits the review</h2><p>Use the site for anchored navigation, summary panels, and figure expansion, or open the PDF for the formal submission artifact.</p></div><div class="cta-actions"><a class="button button--light" href="report/">Enter full report</a><a class="button button--ghost-light" href="assets/docs/cyb-report-fixed-v3.pdf">Download PDF</a></div></div></section>
+        <section class="section-block"><div class="cta-panel panel panel--navy" data-reveal><div><p class="section-kicker">Review options</p><h2>Choose the format that best fits the review</h2><p>Use the site for anchored navigation, summary panels, and figure expansion, or open the PDF for the formal submission artifact.</p></div><div class="cta-actions"><a class="button button--light" href="report/index.html">Enter full report</a><a class="button button--ghost-light" href="assets/docs/cyb-report-fixed-v3.pdf">Download PDF</a></div></div></section>
       </main>
       {render_footer("")}
     </div>
