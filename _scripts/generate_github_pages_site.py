@@ -456,6 +456,7 @@ def render_head(title: str, description: str, canonical_path: str, path_prefix: 
     <meta name="twitter:title" content="{title}" />
     <meta name="twitter:description" content="{description}" />
     <meta name="twitter:image" content="{og_image_url}" />
+    <script>document.documentElement.classList.add("js");</script>
     <link rel="stylesheet" href="{path_prefix}assets/css/styles.css" />
   </head>
 """

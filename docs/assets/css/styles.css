@@ -1089,12 +1089,17 @@ td {
 }
 
 [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+.js [data-reveal] {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.65s ease, transform 0.65s ease;
 }
 
-[data-reveal].is-visible {
+.js [data-reveal].is-visible {
   opacity: 1;
   transform: translateY(0);
 }
