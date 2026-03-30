@@ -67,23 +67,39 @@ if ("IntersectionObserver" in window && tocLinks.length > 0 && sections.length >
 }
 
 const lightbox = document.querySelector("[data-lightbox]");
+const lightboxDialog = lightbox?.querySelector(".lightbox-dialog") ?? null;
 const lightboxImage = document.querySelector("[data-lightbox-image]");
 const lightboxCaption = document.querySelector("[data-lightbox-caption]");
+const lightboxPrevButton = document.querySelector("[data-lightbox-prev]");
+const lightboxNextButton = document.querySelector("[data-lightbox-next]");
 const lightboxTriggers = Array.from(document.querySelectorAll("[data-lightbox-src]"));
 const lightboxCloseButtons = Array.from(document.querySelectorAll("[data-lightbox-close]"));
 
-if (lightbox && lightboxImage && lightboxCaption && lightboxTriggers.length > 0) {
+if (
+  lightbox instanceof HTMLElement &&
+  lightboxDialog instanceof HTMLElement &&
+  lightboxImage instanceof HTMLImageElement &&
+  lightboxCaption instanceof HTMLElement &&
+  lightboxTriggers.length > 0
+) {
   let lastFocusedElement = null;
+  let currentIndex = -1;
 
-  const closeLightbox = () => {
-    lightbox.hidden = true;
-    document.body.style.overflow = "";
-    if (lastFocusedElement instanceof HTMLElement) {
-      lastFocusedElement.focus();
+  const focusableSelector =
+    'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  const getFocusableElements = () =>
+    Array.from(lightboxDialog.querySelectorAll(focusableSelector)).filter(
+      (element) => element instanceof HTMLElement && !element.hasAttribute("hidden"),
+    );
+
+  const renderFigure = (index) => {
+    if (lightboxTriggers.length === 0) {
+      return;
     }
-  };
 
-  const openLightbox = (trigger) => {
+    currentIndex = (index + lightboxTriggers.length) % lightboxTriggers.length;
+    const trigger = lightboxTriggers[currentIndex];
     const src = trigger.getAttribute("data-lightbox-src");
     const caption = trigger.getAttribute("data-lightbox-alt") ?? "";
 
@@ -91,26 +107,105 @@ if (lightbox && lightboxImage && lightboxCaption && lightboxTriggers.length > 0)
       return;
     }
 
-    lastFocusedElement = trigger;
     lightboxImage.src = src;
     lightboxImage.alt = caption;
     lightboxCaption.textContent = caption;
-    lightbox.hidden = false;
-    document.body.style.overflow = "hidden";
-    lightbox.querySelector(".lightbox-close")?.focus();
+
+    if (lightboxPrevButton instanceof HTMLButtonElement) {
+      lightboxPrevButton.disabled = lightboxTriggers.length < 2;
+    }
+
+    if (lightboxNextButton instanceof HTMLButtonElement) {
+      lightboxNextButton.disabled = lightboxTriggers.length < 2;
+    }
   };
 
-  lightboxTriggers.forEach((trigger) => {
-    trigger.addEventListener("click", () => openLightbox(trigger));
+  const closeLightbox = () => {
+    lightbox.hidden = true;
+    lightbox.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (lastFocusedElement instanceof HTMLElement) {
+      lastFocusedElement.focus();
+    }
+  };
+
+  const openLightboxAt = (index) => {
+    lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    renderFigure(index);
+    lightbox.hidden = false;
+    lightbox.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    lightboxDialog.focus();
+  };
+
+  const moveLightbox = (direction) => {
+    if (lightboxTriggers.length < 2) {
+      return;
+    }
+    renderFigure(currentIndex + direction);
+  };
+
+  const trapFocus = (event) => {
+    if (event.key !== "Tab" || lightbox.hidden) {
+      return;
+    }
+
+    const focusableElements = getFocusableElements();
+
+    if (focusableElements.length === 0) {
+      event.preventDefault();
+      lightboxDialog.focus();
+      return;
+    }
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+    } else if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
+  };
+
+  lightboxTriggers.forEach((trigger, index) => {
+    trigger.addEventListener("click", () => openLightboxAt(index));
   });
 
   lightboxCloseButtons.forEach((button) => {
     button.addEventListener("click", closeLightbox);
   });
 
+  if (lightboxPrevButton instanceof HTMLButtonElement) {
+    lightboxPrevButton.addEventListener("click", () => moveLightbox(-1));
+  }
+
+  if (lightboxNextButton instanceof HTMLButtonElement) {
+    lightboxNextButton.addEventListener("click", () => moveLightbox(1));
+  }
+
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !lightbox.hidden) {
-      closeLightbox();
+    if (lightbox.hidden) {
+      return;
     }
+
+    if (event.key === "Escape") {
+      closeLightbox();
+      return;
+    }
+
+    if (event.key === "ArrowLeft") {
+      moveLightbox(-1);
+      return;
+    }
+
+    if (event.key === "ArrowRight") {
+      moveLightbox(1);
+      return;
+    }
+
+    trapFocus(event);
   });
 }
