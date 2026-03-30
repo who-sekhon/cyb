@@ -13,12 +13,14 @@ ROOT_INDEX_PATH = ROOT / "index.html"
 ROOT_REPORT_DIR = ROOT / "report"
 ROOT_ASSETS_DIR = ROOT / "assets"
 MARKDOWN_PATH = ROOT / "CMP-X305_coursework_report.md"
-SUBMISSION_SOURCE = ROOT / "CMP-X305_Cybersecurity_Portfolio_FINAL.docx"
-SUBMISSION_FILENAME = "cmp-x305-cybersecurity-portfolio-final.docx"
+SUBMISSION_SOURCE = Path(r"c:\Users\sukhj\OneDrive\Desktop\.-\Coursework Portfolio 1 - Formatted.pdf")
+SUBMISSION_FILENAME = "coursework-portfolio-1-formatted.pdf"
 SUBMISSION_DEST = SITE_ROOT / "assets" / "docs" / SUBMISSION_FILENAME
 LEGACY_DOWNLOADS = [
     SITE_ROOT / "assets" / "docs" / "cyb-report-fixed-v3.pdf",
     ROOT / "assets" / "docs" / "cyb-report-fixed-v3.pdf",
+    SITE_ROOT / "assets" / "docs" / "cmp-x305-cybersecurity-portfolio-final.docx",
+    ROOT / "assets" / "docs" / "cmp-x305-cybersecurity-portfolio-final.docx",
 ]
 SOURCE_CSS = ROOT / "assets" / "css" / "styles.css"
 SOURCE_JS = ROOT / "assets" / "js" / "site.js"
@@ -327,10 +329,10 @@ REVIEW_CARDS = [
         "label": "Open report",
     },
     {
-        "title": "Cross-check the DOCX",
-        "text": "The downloadable DOCX is the formal submission artifact for institutional review and record-keeping.",
+        "title": "Cross-check the PDF",
+        "text": "The downloadable PDF is the formal submission artifact for institutional review and record-keeping.",
         "href": f"assets/docs/{SUBMISSION_FILENAME}",
-        "label": "Open DOCX",
+        "label": "Open PDF",
     },
 ]
 
@@ -504,7 +506,7 @@ def render_header(path_prefix: str, active: str) -> str:
       <nav class="site-nav" aria-label="Primary">
         <a href="{home_href}"{home_current}>Overview</a>
         <a href="{report_href}"{report_current}>Full report</a>
-        <a href="{submission_href}">Submission DOCX</a>
+        <a href="{submission_href}">Submission PDF</a>
       </nav>
     </header>
 """
@@ -517,7 +519,7 @@ def render_footer(path_prefix: str) -> str:
     return f"""
     <footer class="site-footer">
       <p>Static academic portfolio prepared for GitHub Pages project-site deployment.</p>
-      <p><a href="{home_href}">Overview</a> · <a href="{report_href}">Full report</a> · <a href="{submission_href}">DOCX</a></p>
+      <p><a href="{home_href}">Overview</a> · <a href="{report_href}">Full report</a> · <a href="{submission_href}">PDF</a></p>
     </footer>
 """
 
@@ -951,13 +953,13 @@ def render_homepage(metadata: dict[str, str], figure_count: int) -> str:
             <p class="hero__abstract">The strongest confirmed issues include WordPress information disclosure, DOM-based XSS in OWASP Juice Shop, exposed administrative service visibility, and a Nessus-identified SSH Terrapin weakness affecting the WordPress host. Each lab section pairs the captured evidence with analysis, limitations, and practical mitigation.</p>
             <div class="hero__actions">
               <a class="button" href="report/index.html">Open full report</a>
-              <a class="button button--secondary" href="{submission_href}">Download submission DOCX</a>
+              <a class="button button--secondary" href="{submission_href}">Download submission PDF</a>
             </div>
             <ul class="hero-stats">
               <li><strong>4</strong><span>labs completed</span></li>
               <li><strong>{figure_count}</strong><span>evidence figures</span></li>
               <li><strong>5</strong><span>core tools used</span></li>
-              <li><strong>1</strong><span>formal DOCX submission</span></li>
+              <li><strong>1</strong><span>formal PDF submission</span></li>
             </ul>
           </div>
           <aside class="hero__aside">
@@ -978,7 +980,7 @@ def render_homepage(metadata: dict[str, str], figure_count: int) -> str:
           </aside>
         </section>
 
-        <section class="section-block"><div class="section-heading" data-reveal><p class="section-kicker">Review route</p><h2>The quickest way to assess the submission</h2><p>Use the site as a structured review surface: start with the abstract, inspect week verdicts and figures, then open the DOCX for the formal submission copy if needed.</p></div><div class="review-grid">{render_marker_cards()}</div></section>
+        <section class="section-block"><div class="section-heading" data-reveal><p class="section-kicker">Review route</p><h2>The quickest way to assess the submission</h2><p>Use the site as a structured review surface: start with the abstract, inspect week verdicts and figures, then open the PDF for the formal submission copy if needed.</p></div><div class="review-grid">{render_marker_cards()}</div></section>
 
         <section class="section-block"><div class="section-heading" data-reveal><p class="section-kicker">Key findings</p><h2>The strongest security results at a glance</h2><p>This view surfaces the most marker-relevant findings before the longer narrative begins.</p></div><div class="findings-grid">{render_finding_cards()}</div></section>
 
@@ -993,7 +995,7 @@ def render_homepage(metadata: dict[str, str], figure_count: int) -> str:
         <section class="section-block"><div class="section-heading" data-reveal><p class="section-kicker">Learning outcomes</p><h2>Direct alignment with the module brief</h2></div><div class="outcome-grid">{render_outcome_cards()}</div></section>
         <section class="section-block"><div class="section-heading" data-reveal><p class="section-kicker">Security toolkit</p><h2>Tools used across the coursework</h2><p>The methods span reconnaissance, exploitation, secure administration, and vulnerability management so the portfolio reads as a coherent security workflow rather than isolated tasks.</p></div><div class="tool-grid">{render_tool_cards()}</div></section>
 
-        <section class="section-block"><div class="cta-panel panel panel--navy" data-reveal><div><p class="section-kicker">Review options</p><h2>Choose the format that best fits the review</h2><p>Use the site for anchored navigation, summary panels, and figure expansion, or open the DOCX for the formal submission artifact.</p></div><div class="cta-actions"><a class="button button--light" href="report/index.html">Enter full report</a><a class="button button--ghost-light" href="{submission_href}">Download DOCX</a></div></div></section>
+        <section class="section-block"><div class="cta-panel panel panel--navy" data-reveal><div><p class="section-kicker">Review options</p><h2>Choose the format that best fits the review</h2><p>Use the site for anchored navigation, summary panels, and figure expansion, or open the PDF for the formal submission artifact.</p></div><div class="cta-actions"><a class="button button--light" href="report/index.html">Enter full report</a><a class="button button--ghost-light" href="{submission_href}">Download PDF</a></div></div></section>
       </main>
       {render_footer("")}
     </div>
@@ -1040,7 +1042,7 @@ def render_report_page(metadata: dict[str, str], report_content: str, figure_cou
             <ol class="toc-list">
               {toc_html}
             </ol>
-            <a class="button button--light button--block" href="{submission_href}">Open submission DOCX</a>
+            <a class="button button--light button--block" href="{submission_href}">Open submission PDF</a>
           </div>
           <div class="panel panel--paper sidebar-card">
             <p class="section-kicker">Quick facts</p>
