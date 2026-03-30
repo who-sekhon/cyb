@@ -1,0 +1,120 @@
+ASSESSMENT BRIEF
+
+Coursework Portfolio 1
+
+Programme
+
+BSc Computer Science & Software Engineering
+
+Module Title
+
+Cyber Security
+
+Module Code
+
+Spring- CMP-X305
+
+Module Level
+
+6
+
+Assessment Type(s) Coursework portfolio
+
+Word Length / Duration
+
+N/A
+
+% contribution to module mark
+
+45%
+
+Deadline (date & time) for Submission
+
+31/03/26
+
+Format/Location of submission
+
+Moodle
+
+Assessment Feedback date:
+
+27/04/26
+
+Learning Outcomes
+
+Employability and Professional Skills
+
+This assessment has been designed to provide you with an opportunity to demonstrate your achievement of the learning outcomes listed below.
+
+This assessment has been designed to provide you with an opportunity to demonstrate your achievement of the following skill(s) which is(are) critical in professional context and jobs.
+
+By successfully completing this assessment, you will be able...
+
+By successfully completing this assessment, you will be able to ...
+
+LO1: Investigate and apply measures · that can be taken to prevent or mitigate the undesirable effects of cyber-crime.
+· LO2: Understand, analyse and practically apply the security properties · of confidentiality, integrity, and availability through the use of cryptographic primitives and related techniques.
+
+Use industry-standard security tools (WPScan, vulnerability scanners, asset monitoring systems) Identify, analyse, and mitigate security vulnerabilities and evaluate risks Produce clear, comprehensive security reports with visual evidence and detailed explanations
+
+LO3: Evaluate risks to privacy and anonymity in commonly used applications.
+
+1
+
+Coursework Portfolio 1 Introduction:
+
+This portfolio assessment evaluates your practical application of cybersecurity principles through four hands-on laboratory exercises. You will demonstrate your ability to identify, analyse, and mitigate security vulnerabilities while documenting your work with screenshots and detailed explanations.
+
+Assessment Structure
+Complete four laboratory exercises (25 marks each, 100 marks total) with comprehensive documentation including screenshots and explanations:
+
+Lab
+
+Title
+
+Learning Outcomes
+
+Week 05
+
+Web Application Security Lab (25 marks)
+
+LO1, LO3
+
+Week 07
+
+Juice-shop Lab (25 marks)
+
+LO1, LO2, LO3
+
+Week 08
+
+Vulnerability Assessment Lab (25 marks)
+
+LO1, LO2
+
+Week 09
+
+Vulnerability Scanning & Mitigation Lab (25 marks) LO1, LO2
+
+Submission Requirements
+For each laboratory, provide:
+· Screenshots: Clear, annotated images demonstrating configuration, execution, and results of security tasks.
+· Explanations: Descriptions of your methodology, wow factor (such as graphs, analysis, etc) and your findings.
+· Reflection: reflect on your investigation and comment on the learning experience and effectiveness of the tool(s).
+
+Assessment Criteria
+Each lab will be assessed on: 1. Technical Competence ­ successful completion using appropriate security tools and techniques 2. Documentation Quality ­ clear, comprehensive documentation with wellannotated screenshots 3. Analysis and Reflection ­ critical evaluation of findings and security implications 4. Professionalism ­ adherence to requirements, proper formatting, and professional presentation.
+2
+
+· Provide a list of references such as articles, websites and chatgpt for any resources that you used to complete your coursework.
+· If you are using AI for this coursework, please provide a description on how you used and for which task.
+· Please pay attention to quality of grammar, spelling, logical structure, clarity of expression, etc.
+Use of Artificial Intelligence (AI) In this section include details of the use of AI tools to support the assessment.
+Please read and apply: https://roehamptonprod.sharepoint.com/sites/portal/information/LTEU/Documents/4a%20 AI%20principles%20and%20guidance%20-for%20Senate.docx https://roehamptonprod.sharepoint.com/sites/portal/information/LTEU/Documents/4b%20 Student%20Guidelines%20on%20the%20use%20of%20AI_.docx · · The assessment is designed so that the use of AI during the assessment is possible. You must acknowledge any use of AI and appropriately cite all AI generated outputs. Please make sure you read and understand the assessment guidelines and ask your Module Leader if you have any questions. You can find the guidance on the use of AI.
+Referencing IEEE style: https://www.citethemrighttutorial.com/course-modules/ieee Mitigating circumstances/late penalties Sometimes circumstances outside of your control may affect your studies and might prevent you from submitting work on time or attending an exam. The University offers the ability for students to request additional time to complete an assessment or to defer an examination to a later date. If you are finding yourself in such a situation, please speak to your Academic Guidance Tutor, the Roehampton Student Union (RSU) or someone in the Wellbeing team first, who can support you. Further details can be found on the mitigating circumstances portal. If you do not apply for or are not approved for Mitigating Circumstances, late penalties will apply. If work is submitted up to 14 days late, the mark will be capped at 50%; if it is over 14 days late, it will not be marked.
+3
+
+Submission Checklist Before you submit, ask yourself: · Have I fully answered the assessment brief? · Have I met the word count and formatting requirements? · Is my referencing complete and accurate? · Have I declared any AI use honestly? · Have I proofread my work? · Am I submitting through the correct platform before the deadline?
+4
+
+
